@@ -59,7 +59,6 @@ sub message_arrived {
 	my $line = nkf("-w", $msg->param(1));
 
 	foreach my $kw (@{$this->{keyword}}) {
-	    my $pattern = nkf("-w", $kw);
 	    if ($line =~ /$kw/i) {
 		my $channel = nkf("-w", $msg->param(0));
 		Boxcar($this, $channel, $sender_nick, $line);
