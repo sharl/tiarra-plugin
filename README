@@ -1,3 +1,13 @@
 tiarra-plugin - 作ったものを適当に入れておくよ
 
 Copyright(C) Sharl Morlaroll <sharl@hauN.org>
+
+* Boxcar.pm
+
++ Tools::Boxcar {
+  mail: <boxcar mail address>
+  password: <boxcar password>
+
+  keyword: <keyword1>[,<keyword2>,...]
+  channel-keyword: <channel1>[,<channel2>,...] <keyword1>[|<keyword2>|...]
+}

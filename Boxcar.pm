@@ -17,6 +17,7 @@ sub new {
     $this->{mail}     = undef;
     $this->{password} = undef;
     $this->{keyword}  = undef;
+    $this->{channel}  = undef;
     $this->_init;
     return $this;
 }
@@ -34,6 +35,15 @@ sub _init {
 	    push @{$this->{keyword}}, $kw;
 	}
     }
+    foreach ($this->config->channel_keyword('all')) {
+	s/(,)\s+/$1/g;
+	s/\s+(\|)\s+/$1/g;
+	my ($channels, $keywords) = split(/\s+/);
+	foreach my $ch (split(/,/, $channels)) {
+	    $ch = nkf("-w", $ch);
+	    $this->{channel}{$ch} = $keywords;
+	}
+    }
 }
 
 ############################################################
@@ -45,24 +55,32 @@ sub message_arrived {
     if ($msg->command eq 'PRIVMSG') {
 	my ($sender_nick) = $msg->prefix =~ /(.+)\!/;
 	if (!$sender_nick) {
-	    my $nick;
 	    if ($sender->isa('IrcIO::Client')) {
-		$nick = $sender->{nick};
+		$sender_nick = $sender->{nick};
 	    } else {
-		$nick = $sender->{current_nick};
+		$sender_nick = $sender->{current_nick};
 	    }
-	    $sender_nick = $nick;
 	}
 
     	my (undef, undef, undef, $reply_anywhere, $get_full_ch_name)
 	    = Auto::Utils::generate_reply_closures($msg, $sender, \@result);
-	my $line = nkf("-w", $msg->param(1));
+	my $channel = nkf("-w", $msg->param(0));
+	my $line    = nkf("-w", $msg->param(1));
 
+	my $flag = 0;
 	foreach my $kw (@{$this->{keyword}}) {
 	    if ($line =~ /$kw/i) {
-		my $channel = nkf("-w", $msg->param(0));
 		Boxcar($this, $channel, $sender_nick, $line);
+		$flag++;
 		last;
+	    }
+	}
+	if (! $flag) {
+	    foreach my $ch (keys %{$this->{channel}}) {
+		if (lc($channel) eq lc($ch) and $line =~ /$this->{channel}{$ch}/i) {
+		    Boxcar($this, $channel, $sender_nick, $line);
+		    last;
+		}
 	    }
 	}
     }
