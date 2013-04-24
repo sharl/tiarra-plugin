@@ -11,3 +11,19 @@ Copyright(C) Sharl Morlaroll <sharl@hauN.org>
   keyword: <keyword1>[,<keyword2>,...]
   channel-keyword: <channel1>[,<channel2>,...] <keyword1>[|<keyword2>|...]
 }
+
+* MessageFilter.pm
+
++ Tools::MessageFilter {
+  # 人物のマスクと、パターン、置換パターンを定義。
+  # パターンを置換パターンに変換
+  # 人物が複数のマスクに一致する場合は、最初に一致したものが使われます。
+  # pattern: *!*@* pattern replace
+
+  # hogehoge を ほげほげ に変換します
+  pattern: *!*@* hogehoge ほげほげ
+
+  # 置換パターンの前後につける文字列
+  head: [
+  tail: ]
+}
