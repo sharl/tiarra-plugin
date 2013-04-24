@@ -103,9 +103,8 @@ sub Boxcar {
     my $req = POST($postURI, [%formdata]);
     $req->authorization_basic($this->{mail}, $this->{password});
 
-    my $ua = LWP::UserAgent->new;
-    $ua->timeout(10);
-    $ua->request($req);
+    my $ua = LWP::UserAgent->new(timeout => 10);
+    my $res = $ua->request($req);
 }
 
 1;
