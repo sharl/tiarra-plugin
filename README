@@ -2,6 +2,20 @@ tiarra-plugin - 作ったものを適当に入れておくよ
 
 Copyright(C) Sharl Morlaroll <sharl@hauN.org>
 
+* Boxcar2.pm
+
++ Tools::Boxcar2 {
+  # get token : https://boxcar.uservoice.com/knowledgebase/articles/314474-how-to-get-my-boxcar-access-token
+  token: <Boxcar 2 access token>
+  # sound name : https://boxcar.uservoice.com/knowledgebase/articles/306788-how-to-send-your-boxcar-account-a-notification
+  sound: <sound name>
+  # encodings : perl -MEncode -le 'print for Encode->encodings(":all")'
+  encoding: UTF-8
+
+  keyword: <keyword1>[,<keyword2>,...]
+  channel-keyword: <channel1>[,<channel2>,...] <keyword1>[|<keyword2>|...]
+}
+
 * Boxcar.pm
 
 + Tools::Boxcar {
