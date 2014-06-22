@@ -68,9 +68,15 @@ sub message_arrived {
 	my $channel = decode($this->{encoding}, $msg->param(0));
 	my $line    = decode($this->{encoding}, $msg->param(1));
 
-	if (Mask::match(@{$this->{keyword}}, $line)) {
-	    Boxcar2($this, $channel, $sender_nick, $line);
-	} else {
+	my $flag = 0;
+	foreach my $kw (@{$this->{keyword}}) {
+	    if ($line =~ /$kw/i) {
+		Boxcar2($this, $channel, $sender_nick, $line);
+		$flag++;
+		last;
+	    }
+	}
+	unless ($flag) {
 	    foreach my $ch (keys %{$this->{channel}}) {
 		if (Mask::match($ch, $channel) and $line =~ /$this->{channel}{$ch}/i) {
 		    Boxcar2($this, $channel, $sender_nick, $line);
