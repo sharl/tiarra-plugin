@@ -68,18 +68,12 @@ sub message_arrived {
 	my $channel = decode($this->{encoding}, $msg->param(0));
 	my $line    = decode($this->{encoding}, $msg->param(1));
 
-	my $flag = 0;
-	foreach my $kw (@{$this->{keyword}}) {
-	    if ($line =~ /$kw/i) {
-		Boxcar2($this, $channel, $sender_nick, $line);
-		$flag++;
-		last;
-	    }
-	}
-	if (! $flag) {
+	if (Mask::match(@{$this->{keyword}}, $line)) {
+	    Boxcar2($this, $channel, $sender_nick, $line);
+	} else {
 	    foreach my $ch (keys %{$this->{channel}}) {
-		if (lc($channel) eq lc($ch) and $line =~ /$this->{channel}{$ch}/i) {
-		    Boxcar($this, $channel, $sender_nick, $line);
+		if (Mask::match($ch, $channel) and $line =~ /$this->{channel}{$ch}/i) {
+		    Boxcar2($this, $channel, $sender_nick, $line);
 		    last;
 		}
 	    }
@@ -91,16 +85,17 @@ sub message_arrived {
 sub Boxcar2 {
     my ($this, $channel, $nick, $message) = @_;
 
-    $channel = encode('UTF-8', $channel);
-    $message = encode('UTF-8', $message);
-
     # omit for TIG typable map
     $message =~ s/\s+\x3.*$//;
     $message =~ s/[\x01-\x1F]//g;
 
+    my $title = encode('UTF-8', substr("$channel $nick $message", 0, 255));
+    $channel  = encode('UTF-8', $channel);
+    $message  = encode('UTF-8', $message);
+
     my %formdata = (
 	user_credentials => $this->{token},
-	'notification[title]' => "$channel $nick",
+	'notification[title]' => $title,
 	'notification[long_message]' => $message,
 	'notification[sound]' => $this->{sound} || 'clanging',
 	'notification[source_name]' => $this->{source},
