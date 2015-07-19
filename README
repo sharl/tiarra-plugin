@@ -9,6 +9,8 @@ Copyright(C) Sharl Morlaroll <sharl@hauN.org>
   token: <Boxcar 2 access token>
   # sound name : https://boxcar.uservoice.com/knowledgebase/articles/306788-how-to-send-your-boxcar-account-a-notification
   sound: <sound name>
+  # specify icon (recommended 64x64 PNG)
+  icon: <icon URL>
   # encodings : perl -MEncode -le 'print for Encode->encodings(":all")'
   encoding: UTF-8
 
@@ -16,11 +18,15 @@ Copyright(C) Sharl Morlaroll <sharl@hauN.org>
   channel-keyword: <channel1>[,<channel2>,...] <keyword1>[|<keyword2>|...]
 }
 
-* Boxcar.pm
+* PushBullet.pm
 
-+ Tools::Boxcar {
-  mail: <boxcar mail address>
-  password: <boxcar password>
++ Tools::PushBullet {
+  apikey: v1UBqIgMry00FCRwemhIjciSF71C6fBfs2ujAsiuzdOsm
+  #device:
+  #encoding: UTF-8
+
+  # encodings : perl -MEncode -le 'print for Encode->encodings(":all")'
+  encoding: UTF-8
 
   keyword: <keyword1>[,<keyword2>,...]
   channel-keyword: <channel1>[,<channel2>,...] <keyword1>[|<keyword2>|...]
