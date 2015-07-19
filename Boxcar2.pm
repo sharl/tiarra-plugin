@@ -17,6 +17,7 @@ sub new {
     $this->{encoding} = undef;
     $this->{token}    = undef;
     $this->{sound}    = undef;
+    $this->{icon}     = undef;
     $this->{keyword}  = undef;
     $this->{channel}  = undef;
     $this->_init;
@@ -29,6 +30,7 @@ sub _init {
     $this->{encoding} = $this->config->encoding || 'UTF-8';
     $this->{token}    = $this->config->token;
     $this->{sound}    = $this->config->sound;
+    $this->{icon}     = $this->config->icon;
     foreach ($this->config->keyword('all')) {
 	s/(,)\s+/$1/g;
 	my @keywords = split(/,/);
@@ -105,6 +107,7 @@ sub Boxcar2 {
 	'notification[long_message]' => $message,
 	'notification[sound]' => $this->{sound} || 'clanging',
 	'notification[source_name]' => $this->{source},
+	'notification[icon_url]' => $this->{icon},
 	);
     LWP::UserAgent->new(timeout => 10)->post(
 	'https://new.boxcar.io/api/notifications',
