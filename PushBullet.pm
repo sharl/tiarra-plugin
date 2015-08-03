@@ -79,7 +79,7 @@ sub message_arrived {
 	unless ($flag) {
 	    foreach my $ch (keys %{$this->{channel}}) {
 		if (Mask::match($ch, $channel) and $line =~ /$this->{channel}{$ch}/i) {
-		    Boxcar2($this, $channel, $sender_nick, $line);
+		    PushBullet($this, $channel, $sender_nick, $line);
 		    last;
 		}
 	    }
