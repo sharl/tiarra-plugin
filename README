@@ -47,3 +47,10 @@ Copyright(C) Sharl Morlaroll <sharl@hauN.org>
   head: [
   tail: ]
 }
+
+* UnicodeFilter.pm by @xia-sava
+
++ Tools::UnicodeFilter {
+  # 発言中の "\x{16進コード}" を問答無用で当該 Unicode の文字に変換します．
+  # 定義とかないのし．
+}
