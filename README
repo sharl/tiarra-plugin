@@ -52,5 +52,7 @@ Copyright(C) Sharl Morlaroll <sharl@hauN.org>
 
 + Tools::UnicodeFilter {
   # 発言中の "\x{16進コード}" を問答無用で当該 Unicode の文字に変換します．
-  # 定義とかないのし．
+  codepoint: 1
+  # 発言中の ":sushi:" といった Slack で使えるっぽいやつを問答無用で当該 Unicode Emoji に変換します．
+  slack-emoji: 1
 }
