@@ -29,7 +29,6 @@ sub message_arrived {
       $message =~ s/\\x\{([0-9a-f]+)\}/Encode::encode('utf-8', eval(qq("\\x{$1}")))/ieg;
     }
     if ($self->{slack_emoji}) {
-      print STDERR $message;
       $message =~ s!:([-+a-z0-9_]+):!Encode::encode('utf-8', $self->{slack_emoji_map}->{$1}) // ":$1:"!ge;
     }
     $msg->param(1, $message);
