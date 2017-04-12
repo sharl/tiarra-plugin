@@ -40,5 +40,8 @@ sub message_arrived {
 1;
 
 =pod
-# 発言中の "\x{16進コード}" を問答無用で当該 Unicode の文字に変換します．
-# 定義とかないのし．
+  # 発言中の "\x{16進コード}" を問答無用で当該 Unicode の文字に変換します．
+  codepoint: 1
+  # 発言中の ":sushi:" といった Slack で使えるっぽいやつを問答無用で当該 Unicode Emoji に変換します．
+  slack-emoji: 1
+
